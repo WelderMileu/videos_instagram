@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<style type="text/css">
+		.content {
+			height: 80vh;
+			overflow-y: scroll;
+		}
+
+		#primary {
+			width: 100%;
+			outline: none;
+		}
+
+		.video-style {
+			position: relative;
+			border-top: 1px solid #f1f1f1;
+			border-bottom: 1px solid #f1f1f1;
+		}
+
+		.elemPlay {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			left: 40%;
+			top: 40%;
+			z-index: 1000;
+
+			font-size: 50px;
+			color: #fff;
+			border-radius: 200px;
+		}
+
+		.bg-active {
+			border:2px solid #399;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+	<body>
+		<div class="container mt-4">
+			<!-- https://www.instagram.com/p/CMM9rlPAAyC/?igshid=1j4mmdfhocjol -->
+			<!-- https://www.instagram.com/p/CMTHO72BDG-/?igshid=1w303gto7h5l -->
+			<!-- https://www.instagram.com/p/CMCe7atlmhs/?igshid=8m45kyiis75i -->
+			<!-- https://www.instagram.com/reel/CMQb_HnD_OG/?igshid=1aqqk36rg7pjv -->
+			<!-- https://www.instagram.com/reel/CLts2bBJzQA/?igshid=1|43s9rll71s2 -->
+			<!-- https://www.instagram.com/p/CMW760CAkpB/?igshid=93xvogrhzz52 -->
+			<div class="template d-flex flex-row flex-wrap justify-content-around">
+				<div class="primary card">
+					<video id="primary" src="./assets/videos/viihTube.mp4" height="500" controls=""></video>
+					<p class="card-footer title-video h6 font-weight-normal text-uppercase"></p>
+				</div>
+				<div class="content d-flex flex-column"></div>			
+			</div>
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+		const content = document.querySelector('.content');
+		const primary = document.querySelector('#primary');
+
+		const assets = [
+			{ 
+				title : "ViiTube Rindo atoa",
+				src: "./assets/videos/viihTube.mp4",
+			},
+			{ 
+				title : "Juliate Rindo da ViiTube",
+				src: "./assets/videos/julliteRisada.mp4" 
+			},
+			{ 
+				title : "Menina dançando",
+				src: "./assets/videos/isabela.mp4" 
+			},
+			{ 
+				title : "Manobra de Bicicleta",
+				src: "./assets/videos/bicicleta.mp4" 
+			},
+			{
+				title : "Boxe Animado", 
+				src: "./assets/videos/boxanimado.mp4" 
+			},
+			{
+				title : "Sons dos Windows vocal", 
+				src: "./assets/videos/windows.mp4" 
+			}
+		];
+		
+
+		assets.map((index, elem) => {
+			const video = document.createElement('video');
+			video.src = index.src;
+			video.width = 300;
+			video.height = 200;
+			// video.classList.add('card');
+
+			const container = document.createElement('div');
+			container.classList.add('video-style', 'm-3');
+			container.append(video);
+
+			const playPaused = document.createElement('i');
+			playPaused.classList.add('fa', 'fa-play', 'elemPlay');
+
+			container.append(playPaused);
+			content.append(container);
+		});
+		
+		primary.addEventListener('playing', () => {
+			p.forEach(elem => {
+				const elemUrl = elem.children[0].src;
+				
+				if (elemUrl === primary.src) {
+					elem.children[1].classList.remove('fa-play');
+					elem.children[1].classList.add('fa-pause');
+				}
+			})
+		});
+
+		primary.addEventListener('ended', () => {
+			p.forEach(elem => {
+				const elemUrl = elem.children[0].src;
+				
+				if (elemUrl === primary.src) {
+					elem.children[1].classList.add('fa-play');
+					elem.children[1].classList.remove('fa-pause');
+				}
+			})
+		})
+
+		primary.addEventListener('pause', () => {
+			p.forEach(elem => {
+				const elemUrl = elem.children[0].src;
+				
+				if (elemUrl === primary.src) {
+					elem.children[1].classList.add('fa-play');
+					elem.children[1].classList.remove('fa-pause');
+				}
+			})
+		})
+		
+
+		const p = document.querySelectorAll('.video-style');
+		p[0].children[0].classList.add('bg-active');
+		const title = document.querySelector('.title-video');
+		title.innerHTML = assets[0].title;
+
+		p.forEach((elem, index) => {
+			elem.addEventListener('click', () => {
+				title.innerHTML = assets[index].title;
+								
+				const active = elem.children[0].src;
+				elem.children[0].classList.add('bg-active')
+				primary.src = active;
+
+				primary.play()
+
+				p.forEach((syst, i) => {
+					if (i != index) {
+						syst.children[0].classList.remove('bg-active')
+						syst.children[1].classList.remove('fa-pause')
+						syst.children[1].classList.add('fa-play')
+					}
+				})
+			});
+		});
+
+	</script>
+</html>
+
+
